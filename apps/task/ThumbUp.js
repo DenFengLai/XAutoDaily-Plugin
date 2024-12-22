@@ -18,10 +18,8 @@ async function ThumbUp() {
   let processed = 0
   for (const i of Config.ThumbUp.list) {
     const [ bot, uid ] = i.split(":")
-
     let n = 0
     let thumbUpApi = new ThumbUpApi(bot)
-
     for (let i = 0; i < 10; i++) {
       let res = null
       try {
@@ -29,9 +27,7 @@ async function ThumbUp() {
       } catch (error) {
         logger.error(error)
       }
-
       logger.debug(`[XAutoDaily] ${bot} 给 ${uid} 点赞`, res)
-
       if (res.code) {
         if (res.code == 1) {
           logger.mark(`[XAutoDaily] ${bot} 给 ${uid} 点赞失败：`, res.msg)

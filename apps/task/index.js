@@ -4,6 +4,7 @@ import { pathToFileURL } from "node:url"
 import { readdir } from "node:fs/promises"
 
 const taskDir = join(Plugin_Path, "apps", "task")
+
 /**
  * 加载任务文件
  * @returns {Promise<Array>} 返回符合条件的任务数组
