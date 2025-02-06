@@ -18,5 +18,13 @@ export default [
     componentProps: {
       placeholder: "请输入Cron表达式"
     }
+  },
+  {
+    field: "ThumbUp.num",
+    label: "点赞数",
+    component: "InputNumber",
+    componentProps: {
+      placeholder: "请输入点赞数;会员20次 非会员10次"
+    }
   }
 ]

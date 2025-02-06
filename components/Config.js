@@ -45,6 +45,10 @@ class Config {
     return cfg.masterQQ
   }
 
+  get auto_fire() {
+    return this.getDefOrConfig("auto_fire")
+  }
+
   /** TRSS的主人列表 */
   get master() {
     return cfg.master

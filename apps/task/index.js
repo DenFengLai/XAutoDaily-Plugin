@@ -21,9 +21,16 @@ export async function loadTasks() {
       const fileUrl = pathToFileURL(join(taskDir, file)).href
       const taskModule = await import(fileUrl)
       const task = taskModule.default
+      const addTask = (task) => {
+        if (task && task.name && task.cron && task.fnc && typeof task.fnc === "function") {
+          tasks.push(task)
+        }
+      }
 
-      if (task && task.name && task.cron && task.fnc && typeof task.fnc === "function") {
-        tasks.push(task)
+      if (Array.isArray(task)) {
+        task.forEach(addTask)
+      } else {
+        addTask(task)
       }
     }
   } catch (error) {

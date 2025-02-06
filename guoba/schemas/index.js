@@ -1,11 +1,16 @@
 import { Config } from "#components"
 import ThumbUp from "./ThumbUp.js"
+import auto_fire from "./auto_fire.js"
 
-export const schemas = [ ...ThumbUp ]
+export const schemas = [
+  ...ThumbUp,
+  ...auto_fire
+]
 
 export function getConfigData() {
   return {
-    ThumbUp: Config.ThumbUp
+    ThumbUp: Config.ThumbUp,
+    auto_fire: Config.auto_fire
   }
 }
 
