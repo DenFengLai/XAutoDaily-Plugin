@@ -1,6 +1,6 @@
 export default [
   {
-    component: "Divider",
+    component: "SOFT_GROUP_BEGIN",
     label: "自动续火设置"
   },
   // {
@@ -11,12 +11,21 @@ export default [
   // },
   {
     field: "auto_fire.group",
-    helpMessage: "群聊续火列表",
-    label: "需要进行续火的群",
+    helpMessage: "需要进行续火的群聊列表",
+    label: "群聊续火列表",
+    component: "Select",
     componentProps: {
-      placeholder: "点击选择群聊"
-    },
-    component: "GSelectGroup"
+      allowAdd: true,
+      allowDel: true,
+      mode: "multiple",
+      placeholder: "点击选择群聊",
+      get options() {
+        return Array.from(Bot.gl.values()).map(item => ({
+          label: `${item.bot_id || Bot.uin}-${item.group_name}-${item.group_id}`,
+          value: `${item.bot_id || Bot.uin}:${item.group_id}`
+        }))
+      }
+    }
   },
   {
     field: "auto_fire.gp_text",
@@ -47,12 +56,21 @@ export default [
   },
   {
     field: "auto_fire.friend",
-    helpMessage: "好友续火列表",
-    label: "需要进行续火的好友",
+    label: "好友续火列表",
+    helpMessage: "需要进行续火的好友列表",
+    component: "Select",
     componentProps: {
-      placeholder: "点击选择好友"
-    },
-    component: "GSelectFriend"
+      allowAdd: true,
+      allowDel: true,
+      mode: "multiple",
+      placeholder: "点击选择好友",
+      get options() {
+        return Array.from(Bot.fl.values()).map(item => ({
+          label: `${item.bot_id || Bot.uin}-${item.nickname}-${item.user_id}`,
+          value: `${item.bot_id || Bot.uin}:${item.user_id}`
+        }))
+      }
+    }
   },
   {
     field: "auto_fire.fl_cron",

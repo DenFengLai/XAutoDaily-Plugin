@@ -39,6 +39,5 @@ export async function loadTasks() {
 
   return tasks
 }
-
 const tasks = await loadTasks()
 export default tasks

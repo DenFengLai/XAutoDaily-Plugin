@@ -1,5 +1,4 @@
 import _ from "lodash"
-import cfg from "../../../../lib/config/config.js"
 import common from "../../lib/common/common.js"
 import { Config } from "#components"
 
@@ -33,7 +32,7 @@ async function auto_fire(targets, texts, taskDesc) {
   if (targets.length < 1 || texts.length < 1) return false
 
   const isGroup = taskDesc.includes("群聊")
-  informMaster(`开始${taskDesc}\n共：${targets.length}${isGroup ? "个群聊" : "人"}\n预计需要：${targets.length * Config.auto_fire.cd}秒`)
+  common.informMaster(`开始${taskDesc}\n共：${targets.length}${isGroup ? "个群聊" : "人"}\n预计需要：${targets.length * Config.auto_fire.cd}秒`)
 
   let Success = 0
   let Failure = 0
@@ -51,23 +50,6 @@ async function auto_fire(targets, texts, taskDesc) {
     await common.sleep(Config.auto_fire.cd * 1000)
   }
 
-  informMaster(`${taskDesc}任务完成\n成功：${Success}${isGroup ? "个" : ""} 失败：${Failure}${isGroup ? "个" : ""}`)
-}
-
-/**
- * 通知主人
- * @param {string} msg 发送的文本
- * @returns {string} 消息id
- */
-async function informMaster(msg) {
-  const masterQQ = cfg.master?.[Bot.uin] || cfg.masterQQ
-
-  if (Config.auto_fire.notificationsAll && Bot.sendMasterMsg) {
-    return Bot.sendMasterMsg(msg, Bot.uin, Config.auto_fire.cd * 1000)
-  } else {
-    for (const qq of masterQQ) {
-      await common.relpyPrivate(qq, msg, Bot.uin)
-      await common.sleep(Config.auto_fire.cd * 1000)
-    }
-  }
+  common.informMaster(`${taskDesc}任务完成\n成功：${Success}${isGroup ? "个" : ""} 失败：${Failure}${isGroup ? "个" : ""}`)
+  return { Success, Failure }
 }

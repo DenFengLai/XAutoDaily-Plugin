@@ -59,6 +59,10 @@ class Config {
     return this.getDefOrConfig("ThumbUp")
   }
 
+  get GroupSign() {
+    return this.getDefOrConfig("GroupSign")
+  }
+
   /**
    * 群配置
    * @param group_id

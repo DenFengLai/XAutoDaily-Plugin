@@ -6,7 +6,7 @@ let task = {}
 if (Config.ThumbUp.auto) {
   task = {
     cron: Config.ThumbUp.cron,
-    name: "[XAutoDaily]自动好友点赞任务",
+    name: "好友点赞",
     fnc: async() => ThumbUp()
   }
 }
@@ -16,38 +16,52 @@ async function ThumbUp() {
   let success = 0
   let failure = 0
   let processed = 0
-  for (const i of Config.ThumbUp.list) {
-    const [ bot, uid ] = i.split(":")
-    let n = 0
-    let thumbUpApi = new ThumbUpApi(bot)
-    for (let i = 0; i < 10; i++) {
-      let res = null
+
+  for (const item of Config.ThumbUp.list) {
+    const [ bot, uid ] = item.split(":")
+    let totalLikes = 0
+    const thumbUpApi = new ThumbUpApi(bot)
+
+    for (let attempt = 0; attempt < 10; attempt++) {
+      let res
       try {
-        res = await (await thumbUpApi.thumbUp(uid, 10))
+        res = await thumbUpApi.thumbUp(uid, 10)
       } catch (error) {
-        logger.error(error)
+        logger.error(`[XAutoDaily] ${bot} 给 ${uid} 点赞异常:`, error)
+        failure++
+        break
       }
+
       logger.debug(`[XAutoDaily] ${bot} 给 ${uid} 点赞`, res)
-      if (res.code) {
-        if (res.code == 1) {
+
+      if (res?.code) {
+        if (res.code === 1) {
           logger.mark(`[XAutoDaily] ${bot} 给 ${uid} 点赞失败：`, res.msg)
           failure++
-        } else if ((res.code == 51 || res.code == 20003 || /上限|已点/.test(res.msg)) && n < 10) {
+          break
+        } else if (
+          [ 51, 20003 ].includes(res.code) ||
+          /上限|已点/.test(res.msg)
+        ) {
           logger.mark(`[XAutoDaily] ${bot} 给 ${uid} 点赞上限（今日已点）：`, res.msg)
           processed++
+          break
         }
-        break
       } else {
-        n += 10
+        totalLikes += 10
       }
     }
-    if (n > 0) {
-      logger.debug(`[XAutoDaily] ${bot} 给 ${uid} 点赞成功，次数: ${n}`)
+
+    if (totalLikes > 0) {
+      logger.debug(`[XAutoDaily] ${bot} 给 ${uid} 点赞成功，次数: ${totalLikes}`)
       success++
     }
+
     await common.sleep(Config.ThumbUp.cd * 1000)
   }
+
   logger.info(`[XAutoDaily] 好友点赞任务完成，成功: ${success}, 失败: ${failure}, 已点: ${processed}`)
+  return { success, failure, processed }
 }
 
 export default task

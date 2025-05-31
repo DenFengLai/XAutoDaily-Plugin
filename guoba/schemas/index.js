@@ -1,17 +1,29 @@
-import { Config } from "#components"
-import ThumbUp from "./ThumbUp.js"
-import auto_fire from "./auto_fire.js"
+import { Config, Plugin_Path } from "#components"
+import fs from "fs/promises"
 
-export const schemas = [
-  ...ThumbUp,
-  ...auto_fire
-]
+import { pathToFileURL } from "node:url"
+import { join } from "node:path"
+
+const schemaDir = join(Plugin_Path, "guoba", "schemas")
+
+const files = (await fs.readdir(schemaDir))
+  .filter(file => file.endsWith(".js") && file !== "index.js")
+
+export const schemas = await Promise.all(
+  files.map(async file => {
+    const mod = await import(pathToFileURL(join(schemaDir, file)).href)
+    return mod.default || []
+  })
+).then(results => results.flat())
 
 export function getConfigData() {
-  return {
-    ThumbUp: Config.ThumbUp,
-    auto_fire: Config.auto_fire
-  }
+  const proto = Object.getPrototypeOf(Config)
+  const getters = Object.entries(Object.getOwnPropertyDescriptors(proto))
+    .filter(([ name, descriptor ]) => typeof descriptor.get === "function")
+    .map(([ name ]) => name)
+  return Object.fromEntries(
+    getters.map(key => [ key, Config[key] ])
+  )
 }
 
 export function setConfigData(data, { Result }) {

@@ -1,6 +1,6 @@
 export default [
   {
-    component: "Divider",
+    component: "SOFT_GROUP_BEGIN",
     label: "自动点赞设置"
   },
   {
@@ -13,10 +13,19 @@ export default [
     field: "ThumbUp.list",
     helpMessage: "好友列表",
     label: "需要进行点赞的好友",
+    component: "Select",
     componentProps: {
-      placeholder: "点击选择好友"
-    },
-    component: "GSelectFriend"
+      allowAdd: true,
+      allowDel: true,
+      mode: "multiple",
+      placeholder: "点击选择好友",
+      get options() {
+        return Array.from(Bot.fl.values()).map(item => ({
+          label: `${item.bot_id || Bot.uin}-${item.nickname}-${item.user_id}`,
+          value: `${item.bot_id || Bot.uin}:${item.user_id}`
+        }))
+      }
+    }
   },
   {
     field: "ThumbUp.cron",
