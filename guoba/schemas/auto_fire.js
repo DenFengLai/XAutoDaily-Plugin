@@ -48,7 +48,7 @@ export default [
     field: "auto_fire.gp_cron",
     label: "群聊续火定时表达式",
     helpMessage: "修改后重启生效",
-    bottomHelpMessage: "群聊虚续火Cron表达式",
+    bottomHelpMessage: "群聊续火Cron表达式",
     component: "EasyCron",
     componentProps: {
       placeholder: "请输入Cron表达式"
