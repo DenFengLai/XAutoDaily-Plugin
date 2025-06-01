@@ -171,12 +171,12 @@ let name = "Yunzai-Bot"
 if (packageJson.name === "miao-yunzai") {
   isMiao = true
   name = "Miao-Yunzai"
-} else if (packageJson.name === "trss-yunzai") {
+} else if (Array.isArray(Bot.uin)) {
   isTRSS = true
   name = "TRSS-Yunzai"
-} else if (packageJson.name === "a-yunzai") {
-  name = "A-Yunzai"
-  isAlemonjs = true
+} else {
+  logger.error("不支持的版本，请使用 Miao-Yunzai 或 TRSS-Yunzai")
+  process.exit(1)
 }
 
 let Version = {

@@ -4,9 +4,6 @@
   "description": "基于Yunzai-Bot的每日自动签到插件",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Denfenglai/XAutoDaily-Plugin.git"
