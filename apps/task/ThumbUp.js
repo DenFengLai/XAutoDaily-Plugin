@@ -12,7 +12,7 @@ if (Config.ThumbUp.auto) {
 }
 
 async function ThumbUp() {
-  logger.mark("[XAutoDaily] 开始执行好友点赞任务")
+  common.informMaster("[XAutoDaily] 开始执行好友点赞任务" + "..." + Config.ThumbUp.list.length + " 个好友，预计需要 " + (Config.ThumbUp.list.length * Config.ThumbUp.cd) + " 秒")
   let success = 0
   let failure = 0
   let processed = 0
@@ -60,7 +60,7 @@ async function ThumbUp() {
     await common.sleep(Config.ThumbUp.cd * 1000)
   }
 
-  logger.info(`[XAutoDaily] 好友点赞任务完成，成功: ${success}, 失败: ${failure}, 已点: ${processed}`)
+  common.informMaster(`[XAutoDaily] 好友点赞任务完成，成功: ${success}, 失败: ${failure}, 已点: ${processed}`)
   return { success, failure, processed }
 }
 
