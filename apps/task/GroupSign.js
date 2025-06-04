@@ -11,6 +11,11 @@ if (Config.GroupSign.list.length > 0) {
 }
 
 async function GroupSign() {
+  let taskName = "GroupSign"
+  if (common.isTaskDone(taskName)) {
+    common.informMaster("[XAutoDaily] 今日打卡任务已完成，将跳过执行")
+    return false
+  }
   common.informMaster("[XAutoDaily] 开始执行打卡任务, 共 " + Config.GroupSign.list.length + " 个群，预计需要 " + (Config.GroupSign.list.length * Config.GroupSign.cd) + " 秒")
   let success = 0
   let failure = 0
@@ -39,6 +44,7 @@ async function GroupSign() {
   }
 
   common.informMaster(`[XAutoDaily] 打卡任务完成，成功: ${success}, 失败: ${failure}`)
+  common.setTaskDone(taskName)
   return { success, failure }
 }
 

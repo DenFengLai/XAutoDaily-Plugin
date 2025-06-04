@@ -30,8 +30,12 @@ export default task
  */
 async function auto_fire(targets, texts, taskDesc) {
   if (targets.length < 1 || texts.length < 1) return false
-
   const isGroup = taskDesc.includes("群聊")
+  if (common.isTaskDone(isGroup ? "auto_fire_group" : "auto_fire_friend")) {
+    common.informMaster(`${taskDesc}今日任务已完成，将跳过执行`)
+    return false
+  }
+
   common.informMaster(`开始${taskDesc}\n共：${targets.length}${isGroup ? "个群聊" : "人"}\n预计需要：${targets.length * Config.auto_fire.cd}秒`)
 
   let Success = 0
@@ -51,5 +55,6 @@ async function auto_fire(targets, texts, taskDesc) {
   }
 
   common.informMaster(`${taskDesc}任务完成\n成功：${Success}${isGroup ? "个" : ""} 失败：${Failure}${isGroup ? "个" : ""}`)
+  common.setTaskDone(isGroup ? "auto_fire_group" : "auto_fire_friend")
   return { Success, Failure }
 }
