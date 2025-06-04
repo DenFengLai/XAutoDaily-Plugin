@@ -1,6 +1,5 @@
 import { Config, Plugin_Path } from "#components"
 import fs from "fs/promises"
-
 import { pathToFileURL } from "node:url"
 import { join } from "node:path"
 
@@ -8,6 +7,13 @@ const schemaDir = join(Plugin_Path, "guoba", "schemas")
 
 const files = (await fs.readdir(schemaDir))
   .filter(file => file.endsWith(".js") && file !== "index.js")
+  .sort((a, b) => {
+    const getNumber = file => {
+      const match = file.match(/\.(\d+)\.js$/)
+      return match ? parseInt(match[1], 10) : Infinity
+    }
+    return getNumber(a) - getNumber(b)
+  })
 
 export const schemas = await Promise.all(
   files.map(async file => {

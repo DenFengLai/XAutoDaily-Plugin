@@ -63,6 +63,10 @@ class Config {
     return this.getDefOrConfig("GroupSign")
   }
 
+  get whole() {
+    return this.getDefOrConfig("whole")
+  }
+
   /**
    * 群配置
    * @param group_id

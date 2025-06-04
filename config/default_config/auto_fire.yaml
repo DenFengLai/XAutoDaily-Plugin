@@ -21,6 +21,3 @@ fl_cron: "0 0 0 * * *"
 
 # 发送间隔 单位：秒
 cd: 5
-
-# 通知全部主人
-notificationsAll: false
