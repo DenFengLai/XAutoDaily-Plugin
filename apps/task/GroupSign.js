@@ -12,7 +12,7 @@ if (Config.GroupSign.list.length > 0) {
 
 async function GroupSign() {
   let taskName = "GroupSign"
-  if (common.isTaskDone(taskName)) {
+  if (await common.isTaskDone(taskName)) {
     common.informMaster("[XAutoDaily] 今日打卡任务已完成，将跳过执行")
     return false
   }

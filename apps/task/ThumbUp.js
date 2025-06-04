@@ -13,7 +13,7 @@ if (Config.ThumbUp.auto) {
 
 async function ThumbUp() {
   let taskName = "ThumbUp"
-  if (common.isTaskDone(taskName)) {
+  if (await common.isTaskDone(taskName)) {
     common.informMaster("[XAutoDaily] 今日好友点赞任务已完成，将跳过执行")
     return false
   }

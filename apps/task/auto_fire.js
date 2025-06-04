@@ -31,7 +31,7 @@ export default task
 async function auto_fire(targets, texts, taskDesc) {
   if (targets.length < 1 || texts.length < 1) return false
   const isGroup = taskDesc.includes("群聊")
-  if (common.isTaskDone(isGroup ? "auto_fire_group" : "auto_fire_friend")) {
+  if (await common.isTaskDone(isGroup ? "auto_fire_group" : "auto_fire_friend")) {
     common.informMaster(`${taskDesc}今日任务已完成，将跳过执行`)
     return false
   }
