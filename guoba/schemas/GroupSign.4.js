@@ -4,7 +4,7 @@ export default [
     label: "群打卡设置"
   },
   {
-    field: "GroupSign.group",
+    field: "GroupSign.list",
     helpMessage: "群聊打卡列表",
     label: "需要进行打卡的群",
     component: "Select",
