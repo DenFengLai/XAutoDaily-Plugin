@@ -11,7 +11,7 @@ const actions = {
   async runTask(_, { Result }) {
     const taskFns = tasks.map(t => t.fnc).filter(fn => typeof fn === "function")
     if (taskFns.length) {
-      Promise.all(taskFns.map(fn => fn()))
+      taskFns.forEach(fn => fn())
       return Result.ok({}, "开始执行辣")
     } else {
       return Result.error("没有可执行的任务")
