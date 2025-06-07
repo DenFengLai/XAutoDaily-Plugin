@@ -1,6 +1,5 @@
-import Version from "./components/Version.js"
-import { Plugin_Name as AppName } from "#components"
-import { loadApps, logSuccess } from "./lib/load/loadApps.js"
+import { Plugin_Name as AppName, Version } from "#components"
+import { loadApps, logSuccess } from "#lib"
 
 let apps
 let loadedFilesCount = 0

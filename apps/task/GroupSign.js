@@ -5,7 +5,7 @@ let task = {}
 if (Config.GroupSign.list.length > 0) {
   task = {
     cron: Config.GroupSign.cron,
-    name: "打卡",
+    name: "GroupSign",
     fnc: async() => GroupSign()
   }
 }
@@ -43,8 +43,9 @@ async function GroupSign() {
     await common.sleep(Config.GroupSign.cd * 1000)
   }
 
-  common.informMaster(`[XAutoDaily] 打卡任务完成，成功: ${success}, 失败: ${failure}`)
-  common.setTaskDone(taskName)
+  let Message = `成功：${success}个 失败：${failure}个`
+  common.informMaster(`[XAutoDaily] 打卡任务完成，${Message}`)
+  common.setTaskDone(taskName, JSON.stringify({ Time: new Date(), Message, Success: success, Failure: failure }))
   return { success, failure }
 }
 

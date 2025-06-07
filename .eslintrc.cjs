@@ -45,7 +45,9 @@ module.exports = {
       "custom-alias": {
         alias: {
           "#components": "./components/index.js",
-          "#model": "./model/index.js"
+          "#model": "./model/index.js",
+          "#guoba": "./guoba/index.js",
+          "#lib": "./lib/index.js"
         },
         extensions: [ ".js", ".json", ".jsx", ".ts", ".tsx" ]
       }

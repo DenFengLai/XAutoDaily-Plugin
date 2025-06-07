@@ -1,5 +1,6 @@
 import { schemas, getConfigData, setConfigData } from "./schemas/index.js"
 import tasks from "../apps/task/index.js"
+import { common } from "#components"
 
 const actions = {
   /**
@@ -15,6 +16,24 @@ const actions = {
       return Result.ok({}, "开始执行辣")
     } else {
       return Result.error("没有可执行的任务")
+    }
+  },
+  /**
+   * 重置所有任务状态
+   * @param {any} args - 任务名称
+   * @param {object} params - 参数对象
+   * @param {object} params.Result - 结果对象
+   */
+  async resetTask([ name ], { Result }) {
+    if (!name) {
+      return Result.error("任务名称不能为空")
+    }
+    if (name === "all") {
+      await common.resetTaskAll()
+      return Result.ok({}, "重置所有任务状态成功")
+    } else {
+      await common.resetTaskStatus(name)
+      return Result.ok({}, "重置成功")
     }
   }
 }

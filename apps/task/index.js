@@ -17,6 +17,7 @@ export async function loadTasks() {
 
     for (const file of files) {
       if (file === "index.js" || extname(file) !== ".js") continue
+      logger.info(`加载定时任务：${file}`)
 
       const fileUrl = pathToFileURL(join(taskDir, file)).href
       const taskModule = await import(fileUrl)

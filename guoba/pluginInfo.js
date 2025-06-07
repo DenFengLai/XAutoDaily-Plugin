@@ -10,6 +10,7 @@ export default {
   isV3: true,
   isV2: false,
   showInMenu: "auto",
+  // 图标：https://icon-sets.iconify.design
   // iconPath: `${Res_Path}/img/Roxy.png`,
   iconColor: "#d19f56"
 }

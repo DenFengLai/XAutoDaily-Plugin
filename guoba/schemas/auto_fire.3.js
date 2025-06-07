@@ -3,6 +3,7 @@ export default [
     component: "SOFT_GROUP_BEGIN",
     label: "自动续火设置"
   },
+  // TODO 添加一个展示上次执行时间和状态以及下次执行时间的内容，和重置按钮放在一起，最好还可以重置时立马刷新执行状态
   // {
   //   field: "auto_fire.auto",
   //   label: "自动续火开关",

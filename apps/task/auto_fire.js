@@ -7,7 +7,7 @@ const task = []
 if (Config.auto_fire.group.length > 0) {
   task.push({
     cron: Config.auto_fire.gp_cron,
-    name: "[自动续火]群聊续火",
+    name: "auto_fire_group",
     fnc: () => auto_fire(Config.auto_fire.group, Config.auto_fire.gp_text, "群聊续火")
   })
 }
@@ -15,7 +15,7 @@ if (Config.auto_fire.group.length > 0) {
 if (Config.auto_fire.friend.length > 0) {
   task.push({
     cron: Config.auto_fire.fl_cron,
-    name: "[自动续火]好友续火",
+    name: "auto_fire_friend",
     fnc: () => auto_fire(Config.auto_fire.friend, Config.auto_fire.fl_text, "好友续火")
   })
 }
@@ -54,7 +54,8 @@ async function auto_fire(targets, texts, taskDesc) {
     await common.sleep(Config.auto_fire.cd * 1000)
   }
 
-  common.informMaster(`${taskDesc}任务完成\n成功：${Success}${isGroup ? "个" : ""} 失败：${Failure}${isGroup ? "个" : ""}`)
-  common.setTaskDone(isGroup ? "auto_fire_group" : "auto_fire_friend")
+  let message = `成功：${Success}${isGroup ? "个" : ""} 失败：${Failure}${isGroup ? "个" : ""}`
+  common.informMaster(`${taskDesc}任务完成\n${message}`)
+  common.setTaskDone(isGroup ? "auto_fire_group" : "auto_fire_friend", JSON.stringify({ Time: new Date(), Message: message, Success, Failure }))
   return { Success, Failure }
 }

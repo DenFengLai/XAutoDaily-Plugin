@@ -6,7 +6,7 @@ let task = {}
 if (Config.ThumbUp.auto) {
   task = {
     cron: Config.ThumbUp.cron,
-    name: "好友点赞",
+    name: "ThumbUp",
     fnc: async() => ThumbUp()
   }
 }
@@ -65,8 +65,9 @@ async function ThumbUp() {
     await common.sleep(Config.ThumbUp.cd * 1000)
   }
 
-  common.informMaster(`[XAutoDaily] 好友点赞任务完成，成功: ${success}, 失败: ${failure}, 已点: ${processed}`)
-  common.setTaskDone(taskName)
+  const Message = `成功: ${success}, 失败: ${failure}, 已点: ${processed}`
+  common.informMaster(`[XAutoDaily] 好友点赞任务完成，${Message}`)
+  common.setTaskDone(taskName, JSON.stringify({ Time: new Date(), Message, Success: success, Failure: failure, Processed: processed }))
   return { success, failure, processed }
 }
 
