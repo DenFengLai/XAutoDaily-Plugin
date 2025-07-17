@@ -5,7 +5,8 @@
       "#components": [ "components/index.js" ],
       "#model": [ "model/index.js" ],
       "#guoba": [ "guoba/index.js" ],
-      "#lib": [ "lib/index.js" ]
+      "#lib": [ "lib/index.js" ],
+      "#utils": ["./utils/index.js"]
     }
   },
   "exclude": [ "node_modules", "data", "resources", "temp" ]
