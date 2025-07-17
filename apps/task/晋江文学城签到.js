@@ -102,7 +102,7 @@ async function jjwxcSignTask() {
         try {
             const res = await jjwxcSignIn(token);
 
-            switch (res.code) {
+            switch (Number(res.code)) {
                 case 200:
                     common.informMaster(`[XAutoDaily] [晋江文学城签到] 成功：${token}`);
                     await common.setTaskDone(taskKey);
