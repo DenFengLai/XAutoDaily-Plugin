@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { Des } from '#utils/des.js';
+import { Des } from '#utils';
 import { URLSearchParams } from 'url';
 import { Config, common } from '#components';
 

@@ -9,12 +9,12 @@ export default [
     },
     {
         field: "sign.晋江文学城签到",
-        label: "晋江文学城签到",
+        label: "签到",
         component: "Switch"
     },
     {
         field: "sign.晋江文学城签到cron",
-        label: "晋江文学城签到cron",
+        label: "cron",
         component: "EasyCron",
         componentProps: {
             placeholder: "请输入Cron表达式"
@@ -22,7 +22,7 @@ export default [
     },
     {
         field: "sign.晋江文学城签到Token",
-        label: "晋江文学城签到Token",
+        label: "Token",
         component: "GTags"
     }
 ]

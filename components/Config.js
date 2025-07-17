@@ -59,6 +59,11 @@ class Config {
     return this.getDefOrConfig("ThumbUp")
   }
 
+  /** 自动任务 */
+  get sign() {
+    return this.getDefOrConfig("sign")
+  }
+
   get GroupSign() {
     return this.getDefOrConfig("GroupSign")
   }

@@ -12,5 +12,6 @@ export default {
   showInMenu: "auto",
   // 图标：https://icon-sets.iconify.design
   // iconPath: `${Res_Path}/img/Roxy.png`,
+  icon: "mdi:check-all",
   iconColor: "#d19f56"
 }
