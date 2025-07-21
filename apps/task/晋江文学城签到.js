@@ -87,48 +87,51 @@ async function jjwxcSignTask() {
     let success = 0;
     let fail = 0;
     const tokens = Config.sign.晋江文学城签到Token;
+    let resultMessage = `[XAutoDaily] [晋江文学城签到] 任务开始：\n`;
 
-    common.informMaster('[XAutoDaily] [晋江文学城签到] 开始执行签到任务');
-
-    for (const token of tokens) {
+    for (let token of tokens) {
         const taskKey = `${task.name}:${token}`;
         if (await common.isTaskDone(taskKey)) {
-            common.informMaster(`[XAutoDaily] [晋江文学城签到] 今日已完成，跳过：${token}`);
+            resultMessage += `[跳过] 今日已完成，跳过：${token}\n`;
             continue;
         }
 
-        common.informMaster(`[XAutoDaily] [晋江文学城签到] 执行中：${token}`);
-
         try {
             const res = await jjwxcSignIn(token);
-
+            if (!res || !res.code) {
+                resultMessage += `[失败] 响应异常：${token}\n`;
+                fail++;
+                continue;
+            }
             switch (Number(res.code)) {
                 case 200:
-                    common.informMaster(`[XAutoDaily] [晋江文学城签到] 成功：${token}`);
+                    resultMessage += `[成功] 成功：${token}\n`;
                     await common.setTaskDone(taskKey);
                     success++;
                     break;
                 case 70003:
-                    common.informMaster(`[XAutoDaily] [晋江文学城签到] 已签到：${token}`);
+                    resultMessage += `[成功] 已签到：${token}\n`;
                     await common.setTaskDone(taskKey);
                     success++;
                     break;
                 case 1004:
-                    common.informMaster(`[XAutoDaily] [晋江文学城签到] 登入验证失败，可能是Token无效：${token}`);
+                    resultMessage += `[失败] 登入验证失败，可能是Token无效：${token}\n`;
                     await common.setTaskDone(taskKey);
                     fail++;
                     break;
                 default:
-                    common.informMaster(`[XAutoDaily] [晋江文学城签到] 失败：${token}，响应：${res.code}`);
+                    resultMessage += `[失败] 失败：${token}，响应：${res.code}\n`;
                     fail++;
             }
         } catch (e) {
-            common.informMaster(`[XAutoDaily] [晋江文学城签到] 异常：${token}，${e.message}`);
+            resultMessage += `[异常] 异常：${token}，${e.message}\n`;
             fail++;
         }
     }
 
-    common.informMaster(`[XAutoDaily] [晋江文学城签到] 任务完成：成功 ${success} 个${fail > 0 ? `，失败 ${fail} 个` : ''}`);
+    resultMessage += `[XAutoDaily] [晋江文学城签到] 任务完成：成功 ${success} 个${fail > 0 ? `，失败 ${fail} 个` : ''}`;
+    common.informMaster(resultMessage);
 }
+
 
 export default task;
