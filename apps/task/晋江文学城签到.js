@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { Des } from '#utils';
+import { Des, maskString } from '#utils';
 import { URLSearchParams } from 'url';
 import { Config, common } from '#components';
 
@@ -87,44 +87,44 @@ async function jjwxcSignTask() {
     let success = 0;
     let fail = 0;
     const tokens = Config.sign.晋江文学城签到Token;
-    let resultMessage = `[XAutoDaily] [晋江文学城签到] 任务开始：\n`;
+    let resultMessage = `[XAutoDaily] [晋江文学城签到]\n`;
 
     for (let token of tokens) {
         const taskKey = `${task.name}:${token}`;
+        const maskedToken = maskString(token, 20);
         if (await common.isTaskDone(taskKey)) {
-            resultMessage += `[跳过] 今日已完成，跳过：${token}\n`;
+            resultMessage += `[跳过] 今日已完成，跳过：${maskedToken}\n`;
             continue;
         }
 
         try {
             const res = await jjwxcSignIn(token);
             if (!res || !res.code) {
-                resultMessage += `[失败] 响应异常：${token}\n`;
+                resultMessage += `[失败] 响应异常：${maskedToken}\n`;
                 fail++;
                 continue;
             }
             switch (Number(res.code)) {
                 case 200:
-                    resultMessage += `[成功] 成功：${token}\n`;
+                    resultMessage += `[成功] 成功：${maskedToken}\n`;
                     await common.setTaskDone(taskKey);
                     success++;
                     break;
                 case 70003:
-                    resultMessage += `[成功] 已签到：${token}\n`;
+                    resultMessage += `[成功] 已签到：${maskedToken}\n`;
                     await common.setTaskDone(taskKey);
                     success++;
                     break;
                 case 1004:
-                    resultMessage += `[失败] 登入验证失败，可能是Token无效：${token}\n`;
-                    await common.setTaskDone(taskKey);
+                    resultMessage += `[失败] 登入验证失败，可能是Token无效：${maskedToken}\n`;
                     fail++;
                     break;
                 default:
-                    resultMessage += `[失败] 失败：${token}，响应：${res.code}\n`;
+                    resultMessage += `[失败] 失败：${maskedToken}，响应：${res.code}\n`;
                     fail++;
             }
         } catch (e) {
-            resultMessage += `[异常] 异常：${token}，${e.message}\n`;
+            resultMessage += `[异常] 异常：${maskedToken}，${e.message}\n`;
             fail++;
         }
     }
